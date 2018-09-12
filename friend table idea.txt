@@ -1,0 +1,4 @@
+CREATE TABLE friends_table (
+ 	user_id INTEGER REFERENCES users(user_id),
+ 	friend_id INTEGER REFERENCES users(user_id)
+ );
