@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+<<<<<<< HEAD
+import com.revature.dto.Credential;
+=======
+>>>>>>> 78400c10d67ec00d0383311b7bdaf0a0a6b1fad7
 import com.revature.model.Users;
 import com.revature.services.UserService;
 
@@ -33,6 +37,29 @@ public class UserController {
 	// /users/:id
 	@GetMapping("{id}")
 	public Users findById(@PathVariable int id) {
+<<<<<<< HEAD
+		return us.findById(id);
+	}
+	
+	// /users/username
+	@PostMapping("username")
+	public Users findByUsername(@RequestBody Credential u){
+		return us.findByUsername(u.getUsername());
+	}
+	
+	// /users/login
+	@PostMapping("login")
+	public Users findByUsernameAndPassword(@RequestBody Credential u){
+		return us.findByUsernameAndPassword(u.getUsername(), u.getPassword());
+	}
+	
+	// /users
+	@PostMapping
+	public int save(@RequestBody  Users u) {
+		return us.save(u);
+	}
+
+=======
 		return null;
 				//new users(id, "kjarmon", "pass", "admin", new ArrayList<>());
 	}
@@ -44,4 +71,5 @@ public class UserController {
 //		return re;
 //	}
 
+>>>>>>> 78400c10d67ec00d0383311b7bdaf0a0a6b1fad7
 }
