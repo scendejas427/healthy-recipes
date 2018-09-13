@@ -1,5 +1,7 @@
 import * as React from "react";
 import axios from "axios";
+import { Card, Grid, Image } from "semantic-ui-react";
+
 // export interface IAppProps {
 // }
 
@@ -40,18 +42,41 @@ export default class GetRecipe extends React.Component<any, any> {
           value={this.state.search}
         />
         <button onClick={this.searchRecipe}>Search</button>
-        {this.state.recipes.map((recipe: any) => {
-          return (
-            <div key={recipe.recipe.url}>
-              <h1>
-                Name:
-                {recipe.recipe.label}
-              </h1>
-              <h1>Calories: {Math.round(recipe.recipe.calories)}</h1>
-              <img src={recipe.recipe.image} alt="No Image Available" />
-            </div>
-          );
-        })}
+        <Grid doubling columns={5}>
+          {this.state.recipes.map((recipe: any) => {
+            return (
+              <Grid.Column
+                key={recipe.recipe.url}
+                mobile={16}
+                tablet={8}
+                computer={4}
+              >
+                <Card.Group>
+                  <Card raised>
+                    <Card.Content>
+                      <Image
+                        src={recipe.recipe.image}
+                        alt="No Image Available"
+                      />
+                      <Card.Header>
+                        <p>
+                          Name:
+                          {recipe.recipe.label}
+                        </p>
+                      </Card.Header>
+                      <Card.Description>
+                        Calories:
+                        {Math.round(
+                          (recipe.recipe.calories /= recipe.recipe.yield)
+                        )}
+                      </Card.Description>
+                    </Card.Content>
+                  </Card>
+                </Card.Group>
+              </Grid.Column>
+            );
+          })}
+        </Grid>
       </div>
     );
   }
