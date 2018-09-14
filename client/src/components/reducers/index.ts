@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-// import { clickerReducer } from "./clicker.reducer";
-import { signInReducer } from "../reducers/signInReducer";
+import { registerReducer } from "./authReducers/registerReducer";
+import { signInReducer } from "./authReducers/signInReducer";
 // import { chuckNorrisReducer } from "./chuck-norris.reducer";
 // import { PokemonSprite } from "../model/PokemonSprite";
 // import { pokemonReducer } from "./pokemon-reducer";
@@ -10,9 +10,13 @@ import { signInReducer } from "../reducers/signInReducer";
 //   joke: string,
 // }
 
-// export interface IClickerState {
-//   clicks: number
-// }
+export interface IRegisterState {
+  username: string;
+  password: string;
+  email: string;
+  avatar: string;
+  errorMessage: string;
+}
 
 // export interface IPokemonState {
 //   pokeId: number,
@@ -29,14 +33,14 @@ export interface ISignInState {
 }
 
 export interface IState {
-  // chuckNorris: IChuckNorrisState,
+  register: IRegisterState;
   // clicker: IClickerState,
   // pokemon: IPokemonState,
   signIn: ISignInState;
 }
 
 export const state = combineReducers<IState>({
-  // chuckNorris: chuckNorrisReducer,
+  register: registerReducer,
   // clicker: clickerReducer,
   // pokemon: pokemonReducer,
   signIn: signInReducer

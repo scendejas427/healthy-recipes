@@ -3,7 +3,8 @@ import { Container } from "semantic-ui-react";
 import { Provider } from "react-redux";
 import GetRecipe from "./components/GetRecipe";
 import { store } from "./Store";
-import SignIn from "./components/SignIn";
+// import SignIn from "./components/SignIn";
+import Register from "./components/Register";
 
 class App extends React.Component {
   public render() {
@@ -16,7 +17,12 @@ class App extends React.Component {
             </header>
             <GetRecipe />
             <br />
-            <SignIn />
+            {/* <SignIn /> */}
+            <br />
+            <br />
+            <br />
+            <br />
+            <Register />
           </div>
         </Container>
       </Provider>

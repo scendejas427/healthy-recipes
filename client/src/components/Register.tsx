@@ -1,24 +1,26 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
-import { ISignInState, IState } from "./reducers";
-import * as signInActions from "./actions/authActions/signInActions";
+import { IRegisterState, IState } from "./reducers";
+import * as registerActions from "./actions/authActions/registerActions";
 import { connect } from "react-redux";
 
-interface IProps extends RouteComponentProps<{}>, ISignInState {
+interface IProps extends RouteComponentProps<{}>, IRegisterState {
   updateError: (message: string) => any;
-  updatePassword: (password: string) => any;
-  updateUsername: (username: string) => any;
+  registerPassword: (password: string) => any;
+  registerUsername: (username: string) => any;
+  registerEmail: (email: string) => any;
+  registerAvatar: (avatar: string) => any;
   submit: (credentials: any) => any;
 }
 
-class SignInComponent extends React.Component<IProps, {}> {
+class Register extends React.Component<IProps, {}> {
   constructor(props: any) {
     super(props);
   }
 
   public submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    fetch("http://localhost:8080/users/login", {
+    fetch("http://localhost:8080/users", {
       body: JSON.stringify(this.props),
       headers: {
         "Content-Type": "application/json"
@@ -32,9 +34,9 @@ class SignInComponent extends React.Component<IProps, {}> {
         } else if (resp.status === 200) {
           return resp.json();
         } else {
-          this.props.updateError("Failed to Login at this time");
+          this.props.updateError("Failed to Register at this time");
         }
-        throw new Error("Failed to login");
+        throw new Error("Failed to register");
       })
       .then(resp => {
         this.props.history.push("/home");
@@ -44,39 +46,52 @@ class SignInComponent extends React.Component<IProps, {}> {
       });
   };
   public passwordChange = (e: any) => {
-    this.props.updatePassword(e.target.value);
+    this.props.registerPassword(e.target.value);
   };
 
   public usernameChange = (e: any) => {
-    this.props.updateUsername(e.target.value);
+    this.props.registerUsername(e.target.value);
+  };
+
+  public emailChange = (e: any) => {
+    this.props.registerEmail(e.target.value);
   };
 
   public render() {
-    const { errorMessage, username, password } = this.props;
+    const { errorMessage, username, password, email } = this.props;
 
     return (
       <form className="form-signin" onSubmit={this.submit}>
         <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
 
-        <label htmlFor="inputUsername">Username</label>
+        <label htmlFor="usernameInput">Username</label>
         <input
           onChange={this.usernameChange}
           value={username}
           type="text"
-          id="inputUsername"
           className="form-control"
           placeholder="Username"
           required
         />
 
-        <label htmlFor="inputPassword">Password</label>
+        <label htmlFor="passwordInput">Password</label>
         <input
           onChange={this.passwordChange}
           value={password}
           type="password"
-          id="inputPassword"
           className="form-control"
           placeholder="Password"
+          required
+        />
+
+        <label htmlFor="inputEmail">Email</label>
+        <input
+          onChange={this.emailChange}
+          value={email}
+          type="email"
+          id="inputEmail"
+          className="form-control"
+          placeholder="Email"
           required
         />
 
@@ -87,14 +102,16 @@ class SignInComponent extends React.Component<IProps, {}> {
   }
 }
 
-const mapStateToProps = (state: IState) => state.signIn;
+const mapStateToProps = (state: IState) => state.register;
 const mapDispatchToProps = {
-  updateError: signInActions.updateError,
-  updatePassword: signInActions.updatePassword,
-  updateUsername: signInActions.updateUsername
+  updateError: registerActions.updateError,
+  registerPassword: registerActions.registerPassword,
+  registerUsername: registerActions.registerUsername,
+  registerEmail: registerActions.registerEmail,
+  registerAvatar: registerActions.registerAvatar
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SignInComponent);
+)(Register);

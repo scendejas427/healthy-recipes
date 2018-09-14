@@ -1,5 +1,5 @@
-import { signInTypes } from "../actions/auth/signInTypes";
-import { ISignInState } from ".";
+import { signInTypes } from "../../actions/authActions/signInTypes";
+import { ISignInState } from "..";
 
 const initialState: ISignInState = {
   password: "",
