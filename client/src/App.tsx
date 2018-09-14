@@ -3,6 +3,7 @@ import { Container } from "semantic-ui-react";
 import { Provider } from "react-redux";
 import GetRecipe from "./components/GetRecipe";
 import { store } from "./Store";
+import SignIn from "./components/SignIn";
 
 class App extends React.Component {
   public render() {
@@ -14,6 +15,8 @@ class App extends React.Component {
               <h1 className="App-title">Welcome to React</h1>
             </header>
             <GetRecipe />
+            <br />
+            <SignIn />
           </div>
         </Container>
       </Provider>
