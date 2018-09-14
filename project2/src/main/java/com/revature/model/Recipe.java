@@ -10,11 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="recipe_table")
-public class RecipeTable {
+public class Recipe {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +24,6 @@ public class RecipeTable {
 	private String image;
 	@Column(name="recipe_name")
 	private String label;
-	@Column(name="diet_label_id")
-	private int dietLabelId;
 	private int yield;
 	private int calories;
 	private int fat;
@@ -36,29 +35,32 @@ public class RecipeTable {
 	@Column(name="recipe_url")
 	private String recipe;
 	
+	//@ManyToOne
+	@Column(name="diet_label_id")
+	private int dietLabelId;
 	
 	@ManyToMany
 	@JoinTable(name = "recipe_health_table", 
 	joinColumns = @JoinColumn(name="recipe_id"),
 	inverseJoinColumns = @JoinColumn(name="health_label_id"))
 	//@Column(name="health_label")
-	private List<Word> healthLabel;
+	private List<Health> healthLabel;
 	
 	@ManyToMany
 	@JoinTable(name = "recipe_ingredients", 
 	joinColumns = @JoinColumn(name="recipe_id"),
 	inverseJoinColumns = @JoinColumn(name="ingredient_id"))
 	//@Column(name="ingredient_name")
-	private List<Word1> ingredients;
+	private List<Ingredients> ingredients;
 
-	public RecipeTable() {
+	public Recipe() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public RecipeTable(int recipeId, String image, String label, int dietLabelId, int yield, int calories, int fat,
-			int fiber, int protein, int carbs, int sodium, int cholesterol, String recipe, List<Word> healthLabel,
-			List<Word1> ingredients) {
+	public Recipe(int recipeId, String image, String label, int dietLabelId, int yield, int calories, int fat,
+			int fiber, int protein, int carbs, int sodium, int cholesterol, String recipe, List<Health> healthLabel,
+			List<Ingredients> ingredients) {
 		super();
 		this.recipeId = recipeId;
 		this.image = image;
@@ -181,19 +183,19 @@ public class RecipeTable {
 		this.recipe = recipe;
 	}
 
-	public List<Word> getHealthLabel() {
+	public List<Health> getHealthLabel() {
 		return healthLabel;
 	}
 
-	public void setHealthLabel(List<Word> healthLabel) {
+	public void setHealthLabel(List<Health> healthLabel) {
 		this.healthLabel = healthLabel;
 	}
 
-	public List<Word1> getIngredients() {
+	public List<Ingredients> getIngredients() {
 		return ingredients;
 	}
 
-	public void setIngredients(List<Word1> ingredients) {
+	public void setIngredients(List<Ingredients> ingredients) {
 		this.ingredients = ingredients;
 	}
 
@@ -227,7 +229,7 @@ public class RecipeTable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RecipeTable other = (RecipeTable) obj;
+		Recipe other = (Recipe) obj;
 		if (calories != other.calories)
 			return false;
 		if (carbs != other.carbs)

@@ -1,6 +1,6 @@
 package com.revature.controller;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.model.RecipeTable;
+import com.revature.model.Recipe;
 import com.revature.services.RecipeService;
 
 @RestController
@@ -23,40 +23,33 @@ public class RecipeController {
 
 	// /recipe
 	@PostMapping
-	public int save(@RequestBody RecipeTable r) {
+	public int save(@RequestBody Recipe r) {
 		return rs.save(r);
 	}
 
 	// /recipe/:id
 	@GetMapping("{id}")
-	public RecipeTable findById(@PathVariable int id) {
+	public Recipe findById(@PathVariable int id) {
 		return rs.findById(id);
+	}
+
+	// /recipe/:id
+	@PostMapping("ids")
+	public List<Recipe> findRecipesByIdArray(@RequestBody List<Integer> ids) {
+		return rs.findByIds(ids);
 	}
 
 	// /recipe/:dietid
 	@GetMapping("/diet/{id}")
-	public List<RecipeTable> findByDietLabelId(@PathVariable int id) {
+	public List<Recipe> findByDietLabelId(@PathVariable int id) {
 		return rs.findByDietLabelId(id);
 	}
-	
-	// /recipe/:recipe i.e. find by url
-	@GetMapping("/url/{url}")
-	public RecipeTable findByRecipe(@PathVariable String url) {
-		return rs.findByRecipe(url);
-	}
-	
+
+
 	// /name/:label
 	@GetMapping("/name/{label}")
-	public RecipeTable findByLabel(@PathVariable String label) {
+	public Recipe findByLabel(@PathVariable String label) {
 		return rs.findByLabel(label);
 	}
-	
-	// /name/:label
-	@GetMapping("/ingredients/{ingredients}")
-	public List<RecipeTable> findByIngredients(@PathVariable List<String> ingredients) {
-//		return rs.findByIngredients(ingredients);
-		return null;
-	}
-
 
 }

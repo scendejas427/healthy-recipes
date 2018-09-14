@@ -1,16 +1,16 @@
 package com.revature.repos;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.revature.model.RecipeTable;
+import com.revature.model.Recipe;
 
-public interface RecipeRepo extends JpaRepository <RecipeTable, Integer> {
+public interface RecipeRepo extends JpaRepository <Recipe, Integer> {
 
-	List<RecipeTable> findByDietLabelId(int id);
-	RecipeTable findByRecipe(String url);
-	RecipeTable findByLabel(String label);
-	RecipeTable findByIngredients(String ingredients);
+	List<Recipe> findByDietLabelId(int id);
+	Recipe findByLabel(String label);
+	List<Recipe> findByRecipeId(List<Integer> recipeId);
 
 }

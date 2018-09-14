@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,7 +12,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="users")
@@ -34,7 +32,7 @@ public class Users {
 	@JoinTable(name = "comment_table", 
 	joinColumns = @JoinColumn(name="user_id"),
 	inverseJoinColumns = @JoinColumn(name="recipe_id"))
-	private List<RecipeTable>recipes;
+	private List<Recipe>recipes;
 
 
 	public Users() {
@@ -43,7 +41,7 @@ public class Users {
 	}
 
 
-	public Users(int userId, String username, String password, String email, String avatar, List<RecipeTable> recipes) {
+	public Users(int userId, String username, String password, String email, String avatar, List<Recipe> recipes) {
 		super();
 		this.userId = userId;
 		this.username = username;
@@ -165,12 +163,12 @@ public class Users {
 	}
 
 
-	public List<RecipeTable> getRecipes() {
+	public List<Recipe> getRecipes() {
 		return recipes;
 	}
 
 
-	public void setRecipes(List<RecipeTable> recipes) {
+	public void setRecipes(List<Recipe> recipes) {
 		this.recipes = recipes;
 	}
 	

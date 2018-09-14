@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.revature.model.RecipeTable;
+import com.revature.model.Recipe;
 import com.revature.repos.RecipeRepo;
 
 
@@ -18,27 +18,25 @@ public class RecipeService {
 	@Autowired
 	private RecipeRepo rr;
 
-	public int save(RecipeTable r) {
+	public int save(Recipe r) {
 		return rr.saveAndFlush(r).getRecipeId();
 	}
 
-	public RecipeTable findById(int id) {
+	public Recipe findById(int id) {
 		return rr.findById(id).get();
 	}
-	public List<RecipeTable> findByDietLabelId(int id) {
+	
+	public List<Recipe> findByDietLabelId(int id) {
 		return rr.findByDietLabelId(id);
 	}
-
-	public RecipeTable findByRecipe(String url) {
-		return rr.findByRecipe(url);
+	
+	public List<Recipe> findByIds(List<Integer> ids) {
+		return rr.findAllById(ids);
 	}
 	
-	public RecipeTable findByLabel(String label) {
+	public Recipe findByLabel(String label) {
 		return rr.findByLabel(label);
 	}
 	
-	public RecipeTable findByIngredients(String ingredients) {
-		return rr.findByIngredients(ingredients);
-	}
 
 }
