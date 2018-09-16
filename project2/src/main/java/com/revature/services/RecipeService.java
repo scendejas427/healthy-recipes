@@ -21,6 +21,10 @@ public class RecipeService {
 	public int save(Recipe r) {
 		return rr.saveAndFlush(r).getRecipeId();
 	}
+	
+	public List<Recipe> findAll() {
+		return rr.findAll();
+	}
 
 	public Recipe findById(int id) {
 		return rr.findById(id).get();

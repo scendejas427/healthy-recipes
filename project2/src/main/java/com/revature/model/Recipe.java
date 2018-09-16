@@ -11,18 +11,24 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
-@Table(name="recipe_table")
+@Table(name = "recipe_table")
 public class Recipe {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="recipe_id")
+	@Column(name = "recipe_id")
 	private int recipeId;
 	private String image;
-	@Column(name="recipe_name")
+	@Column(name = "recipe_name")
 	private String label;
 	private int yield;
 	private int calories;
@@ -32,40 +38,34 @@ public class Recipe {
 	private int carbs;
 	private int sodium;
 	private int cholesterol;
-	@Column(name="recipe_url")
+	@Column(name = "recipe_url")
 	private String recipe;
-	
-	//@ManyToOne
-	@Column(name="diet_label_id")
-	private int dietLabelId;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "diet_label_id")
+	@JsonProperty(access = Access.WRITE_ONLY)
+	private DietLabel dietLabel;
+
 	@ManyToMany
-	@JoinTable(name = "recipe_health_table", 
-	joinColumns = @JoinColumn(name="recipe_id"),
-	inverseJoinColumns = @JoinColumn(name="health_label_id"))
-	//@Column(name="health_label")
+	@JoinTable(name = "recipe_health_table", joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "health_label_id"))
 	private List<Health> healthLabel;
-	
-	@ManyToMany
-	@JoinTable(name = "recipe_ingredients", 
-	joinColumns = @JoinColumn(name="recipe_id"),
-	inverseJoinColumns = @JoinColumn(name="ingredient_id"))
-	//@Column(name="ingredient_name")
-	private List<Ingredients> ingredients;
+
+	@OneToMany(mappedBy = "recipe")
+	private List<RecipeIngredients> ingredients;
+
 
 	public Recipe() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Recipe(int recipeId, String image, String label, int dietLabelId, int yield, int calories, int fat,
-			int fiber, int protein, int carbs, int sodium, int cholesterol, String recipe, List<Health> healthLabel,
-			List<Ingredients> ingredients) {
+	public Recipe(int recipeId, String image, String label, int yield, int calories, int fat, int fiber, int protein,
+			int carbs, int sodium, int cholesterol, String recipe, DietLabel dietLabel, List<Health> healthLabel,
+			List<RecipeIngredients> ingredients) {
 		super();
 		this.recipeId = recipeId;
 		this.image = image;
 		this.label = label;
-		this.dietLabelId = dietLabelId;
 		this.yield = yield;
 		this.calories = calories;
 		this.fat = fat;
@@ -75,6 +75,7 @@ public class Recipe {
 		this.sodium = sodium;
 		this.cholesterol = cholesterol;
 		this.recipe = recipe;
+		this.dietLabel = dietLabel;
 		this.healthLabel = healthLabel;
 		this.ingredients = ingredients;
 	}
@@ -101,14 +102,6 @@ public class Recipe {
 
 	public void setLabel(String label) {
 		this.label = label;
-	}
-
-	public int getDietLabelId() {
-		return dietLabelId;
-	}
-
-	public void setDietLabelId(int dietLabelId) {
-		this.dietLabelId = dietLabelId;
 	}
 
 	public int getYield() {
@@ -183,6 +176,14 @@ public class Recipe {
 		this.recipe = recipe;
 	}
 
+	public DietLabel getDietLabel() {
+		return dietLabel;
+	}
+
+	public void setDietLabel(DietLabel dietLabel) {
+		this.dietLabel = dietLabel;
+	}
+
 	public List<Health> getHealthLabel() {
 		return healthLabel;
 	}
@@ -191,11 +192,11 @@ public class Recipe {
 		this.healthLabel = healthLabel;
 	}
 
-	public List<Ingredients> getIngredients() {
+	public List<RecipeIngredients> getIngredients() {
 		return ingredients;
 	}
 
-	public void setIngredients(List<Ingredients> ingredients) {
+	public void setIngredients(List<RecipeIngredients> ingredients) {
 		this.ingredients = ingredients;
 	}
 
@@ -206,7 +207,7 @@ public class Recipe {
 		result = prime * result + calories;
 		result = prime * result + carbs;
 		result = prime * result + cholesterol;
-		result = prime * result + dietLabelId;
+		result = prime * result + ((dietLabel == null) ? 0 : dietLabel.hashCode());
 		result = prime * result + fat;
 		result = prime * result + fiber;
 		result = prime * result + ((healthLabel == null) ? 0 : healthLabel.hashCode());
@@ -236,7 +237,10 @@ public class Recipe {
 			return false;
 		if (cholesterol != other.cholesterol)
 			return false;
-		if (dietLabelId != other.dietLabelId)
+		if (dietLabel == null) {
+			if (other.dietLabel != null)
+				return false;
+		} else if (!dietLabel.equals(other.dietLabel))
 			return false;
 		if (fat != other.fat)
 			return false;
@@ -280,11 +284,10 @@ public class Recipe {
 
 	@Override
 	public String toString() {
-		return "RecipeTable [recipeId=" + recipeId + ", image=" + image + ", label=" + label + ", dietLabelId="
-				+ dietLabelId + ", yield=" + yield + ", calories=" + calories + ", fat=" + fat + ", fiber=" + fiber
-				+ ", protein=" + protein + ", carbs=" + carbs + ", sodium=" + sodium + ", cholesterol=" + cholesterol
-				+ ", recipe=" + recipe + ", healthLabel=" + healthLabel + ", ingredients=" + ingredients + "]";
+		return "Recipe [recipeId=" + recipeId + ", image=" + image + ", label=" + label + ", yield=" + yield
+				+ ", calories=" + calories + ", fat=" + fat + ", fiber=" + fiber + ", protein=" + protein + ", carbs="
+				+ carbs + ", sodium=" + sodium + ", cholesterol=" + cholesterol + ", recipe=" + recipe + ", dietLabel="
+				+ dietLabel + ", healthLabel=" + healthLabel + ", ingredients=" + ingredients + "]";
 	}
-	
-	
+
 }

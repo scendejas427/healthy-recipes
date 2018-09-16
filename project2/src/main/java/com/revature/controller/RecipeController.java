@@ -1,6 +1,5 @@
 package com.revature.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,13 @@ public class RecipeController {
 	@PostMapping
 	public int save(@RequestBody Recipe r) {
 		return rs.save(r);
+	}
+	
+	// /recipe
+	@GetMapping
+	public List<Recipe> findAll() {
+		System.out.println("finding all recipes");
+		return rs.findAll();
 	}
 
 	// /recipe/:id
