@@ -1,11 +1,8 @@
 package com.revature.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.dto.Credential;
 import com.revature.model.Users;
 import com.revature.services.UserService;
 
@@ -33,15 +31,25 @@ public class UserController {
 	// /users/:id
 	@GetMapping("{id}")
 	public Users findById(@PathVariable int id) {
-		return null;
-				//new users(id, "kjarmon", "pass", "admin", new ArrayList<>());
+		return us.findById(id);
 	}
-
-//	@PostMapping
-//	public ResponseEntity<users> save(@RequestBody users u) {
-//		u.setId(1);
-//		ResponseEntity<users> re = new ResponseEntity<users>(u, HttpStatus.CREATED);
-//		return re;
-//	}
+	
+	// /users/username
+	@PostMapping("username")
+	public Users findByUsername(@RequestBody Credential u){
+		return us.findByUsername(u.getUsername());
+	}
+	
+	// /users/login
+	@PostMapping("login")
+	public Users findByUsernameAndPassword(@RequestBody Credential u){
+		return us.findByUsernameAndPassword(u.getUsername(), u.getPassword());
+	}
+	
+	// /users
+	@PostMapping
+	public int save(@RequestBody  Users u) {
+		return us.save(u);
+	}
 
 }

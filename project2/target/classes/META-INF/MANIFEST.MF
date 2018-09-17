@@ -1,6 +1,11 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: mwlai
 Build-Jdk: 10.0.2
+=======
+Built-By: korey
+Build-Jdk: 10.0.1
+>>>>>>> b7b3e33900f84ea1aeb557cc126e8af9a3917586
 Implementation-Title: spring-boot
 Implementation-Version: 0.0.1-SNAPSHOT
 Implementation-Vendor-Id: revature
