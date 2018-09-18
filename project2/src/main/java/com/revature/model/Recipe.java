@@ -18,17 +18,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Table(name = "recipe_table")
+@Table(name="recipe_table")
 public class Recipe {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "recipe_id")
+	@Column(name="recipe_id")
 	private int recipeId;
 	private String image;
-	@Column(name = "recipe_name")
+	@Column(name="recipe_name")
 	private String label;
 	private int yield;
 	private int calories;
@@ -38,21 +38,26 @@ public class Recipe {
 	private int carbs;
 	private int sodium;
 	private int cholesterol;
-	@Column(name = "recipe_url")
+	@Column(name="recipe_url")
 	private String recipe;
-
-	@ManyToOne
-	@JoinColumn(name = "diet_label_id")
-	@JsonProperty(access = Access.WRITE_ONLY)
-	private DietLabel dietLabel;
-
+	
+//	@ManyToOne
+	@Column(name="diet_label_id")
+	private int dietLabelId;
+	
 	@ManyToMany
-	@JoinTable(name = "recipe_health_table", joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "health_label_id"))
+	@JoinTable(name = "recipe_health_table", 
+	joinColumns = @JoinColumn(name="recipe_id"),
+	inverseJoinColumns = @JoinColumn(name="health_label_id"))
 	private List<Health> healthLabel;
-
+	
 	@OneToMany(mappedBy = "recipe")
+//	@JsonProperty(access = Access.WRITE_ONLY)
 	private List<RecipeIngredients> ingredients;
-
+	
+//	@ManyToOne
+//	@JoinColumn(name="recipe_id",insertable=false, updatable=false)
+//	private Users user;
 
 	public Recipe() {
 		super();
@@ -60,7 +65,7 @@ public class Recipe {
 	}
 
 	public Recipe(int recipeId, String image, String label, int yield, int calories, int fat, int fiber, int protein,
-			int carbs, int sodium, int cholesterol, String recipe, DietLabel dietLabel, List<Health> healthLabel,
+			int carbs, int sodium, int cholesterol, String recipe, int dietLabelId, List<Health> healthLabel,
 			List<RecipeIngredients> ingredients) {
 		super();
 		this.recipeId = recipeId;
@@ -75,7 +80,7 @@ public class Recipe {
 		this.sodium = sodium;
 		this.cholesterol = cholesterol;
 		this.recipe = recipe;
-		this.dietLabel = dietLabel;
+		this.dietLabelId = dietLabelId;
 		this.healthLabel = healthLabel;
 		this.ingredients = ingredients;
 	}
@@ -176,12 +181,12 @@ public class Recipe {
 		this.recipe = recipe;
 	}
 
-	public DietLabel getDietLabel() {
-		return dietLabel;
+	public int getDietLabelId() {
+		return dietLabelId;
 	}
 
-	public void setDietLabel(DietLabel dietLabel) {
-		this.dietLabel = dietLabel;
+	public void setDietLabelId(int dietLabelId) {
+		this.dietLabelId = dietLabelId;
 	}
 
 	public List<Health> getHealthLabel() {
@@ -207,7 +212,7 @@ public class Recipe {
 		result = prime * result + calories;
 		result = prime * result + carbs;
 		result = prime * result + cholesterol;
-		result = prime * result + ((dietLabel == null) ? 0 : dietLabel.hashCode());
+		result = prime * result + dietLabelId;
 		result = prime * result + fat;
 		result = prime * result + fiber;
 		result = prime * result + ((healthLabel == null) ? 0 : healthLabel.hashCode());
@@ -237,10 +242,7 @@ public class Recipe {
 			return false;
 		if (cholesterol != other.cholesterol)
 			return false;
-		if (dietLabel == null) {
-			if (other.dietLabel != null)
-				return false;
-		} else if (!dietLabel.equals(other.dietLabel))
+		if (dietLabelId != other.dietLabelId)
 			return false;
 		if (fat != other.fat)
 			return false;
@@ -286,8 +288,10 @@ public class Recipe {
 	public String toString() {
 		return "Recipe [recipeId=" + recipeId + ", image=" + image + ", label=" + label + ", yield=" + yield
 				+ ", calories=" + calories + ", fat=" + fat + ", fiber=" + fiber + ", protein=" + protein + ", carbs="
-				+ carbs + ", sodium=" + sodium + ", cholesterol=" + cholesterol + ", recipe=" + recipe + ", dietLabel="
-				+ dietLabel + ", healthLabel=" + healthLabel + ", ingredients=" + ingredients + "]";
+				+ carbs + ", sodium=" + sodium + ", cholesterol=" + cholesterol + ", recipe=" + recipe
+				+ ", dietLabelId=" + dietLabelId + ", healthLabel=" + healthLabel + ", ingredients=" + ingredients
+				+ "]";
 	}
-
+	
+	
 }
