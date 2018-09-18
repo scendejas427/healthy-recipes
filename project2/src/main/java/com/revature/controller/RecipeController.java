@@ -49,7 +49,7 @@ public class RecipeController {
 	}
 
 	// /recipe/:id
-	@PostMapping("{id}/recipeingredients")
+	@PostMapping("recipeingredients/{id}")
 	public ResponseEntity<RecipeIngredients> save(@PathVariable int id, @RequestBody RecipeIngredients newIngredient) {
 		RecipeIngredients ingredient = rs.addItem(id, newIngredient);
 		ResponseEntity<RecipeIngredients> resp = new ResponseEntity<RecipeIngredients>(ingredient, HttpStatus.CREATED);

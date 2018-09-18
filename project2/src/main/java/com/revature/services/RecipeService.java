@@ -51,10 +51,10 @@ public class RecipeService {
 	@Transactional
 	public RecipeIngredients addItem(int id, RecipeIngredients newIngredient) {
 		Recipe r = rr.getOne(id);
-		RecipeIngredients ingredient = rir.getOne(newIngredient.getRecipeIngredientId());
-		ingredient.setRecipe(r);
-		rir.save(ingredient);
-		return ingredient;
+//		RecipeIngredients ingredient = rir.getOne(newIngredient.getRecipeIngredientId());
+		newIngredient.setRecipe(r);
+		rir.saveAndFlush(newIngredient);
+		return newIngredient;
 	}
 	
 
