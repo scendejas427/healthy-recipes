@@ -21,7 +21,6 @@ public class RecipeIngredientsController {
 	@PostMapping
 	public ResponseEntity <RecipeIngredients> save(@RequestBody RecipeIngredients newIngredients){
 		RecipeIngredients ingredient = ris.addIngredients(newIngredients);
-		System.out.println(ingredient.getRecipe());
 		ResponseEntity <RecipeIngredients> resp = new ResponseEntity<RecipeIngredients>(ingredient, HttpStatus.CREATED);
 		return resp;
 	}

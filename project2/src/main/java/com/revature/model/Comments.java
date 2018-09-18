@@ -20,6 +20,9 @@ public class Comments {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="comment_id")
+	private int commentId;
+	
 	@Column(name="recipe_id")
 	private int recipeId;
 	
